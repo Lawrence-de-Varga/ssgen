@@ -22,25 +22,30 @@ class HTMLNode:
 
 
 class LeafNode(HTMLNode):
-    def __init__(self, tag, value, props=None):
-        super().__init__(tag, value, None, props=props)
-        self._children = None
+    def __init__(self, tag=None, value=None, props=None):
+        super().__init__(tag, value, children=None, props=props)
+        if self.value is None:
+            raise ValueError("Leaf nodes must have a value.")
 
-    @property
-    def children(self):
-        raise AttributeError("Leaf nodes cannot have children.")
+    # @property
+    # def children(self):
+    #     raise AttributeError("Leaf nodes cannot have children.")
 
-    @children.setter
-    def children(self, value):
-        raise AttributeError("LeafNode's cannot have children assigned to them.")
+    # @children.setter
+    # def children(self, value):
+    #     self.children = None
+    #     raise AttributeError("LeafNode's cannot have children assigned to them.")
 
     def to_html(self):
-        if not self.value:
+        if self.value is None:
             raise ValueError("Leaf nodes must have a value.")
-        if not self.tag:
+        if self.tag is None:
             return self.value
         if self.props:
             html_props = self.props_to_html()
         else:
             html_props = ""
         return f"<{self.tag}{html_props}>{self.value}</{self.tag}>"
+
+    def __repr__(self):
+        return f"LeafNode(tag={self.tag}, value={self.value}, props={self.props})"

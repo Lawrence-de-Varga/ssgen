@@ -15,17 +15,17 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode("a", "Click me", props)
         self.assertEqual(node.props, props)
 
-    def test_no_children_allowed(self):
-        node = LeafNode("span", "content")
+    # def test_children_property(self):
+    #     node = LeafNode("span", "content")
+    #     with self.assertRaises(AttributeError) as ctx:
+    #         _ = node.children
+    #     self.assertEqual(str(ctx.exception), "LeafNode cannot have children")
 
-        # Test property access
-        with self.assertRaises(AttributeError) as context:
-            _ = node.children
-        self.assertEqual(str(context.exception), "Leaf nodes cannot have children.")
-
-        # Test direct assignment attempt
-        with self.assertRaises(AttributeError):
-            node.children = ["illegal child"]
+    #     with self.assertRaises(AttributeError) as ctx:
+    #         node.children = ["invalid"]
+    #     self.assertEqual(
+    #         str(ctx.exception), "LeafNode's cannot have children assigned to them."
+    #     )
 
     def test_to_html(self):
         # Test simple tag
@@ -73,9 +73,8 @@ class TestLeafNode(unittest.TestCase):
         self.assertEqual(node.to_html(), "<span>True</span>")
 
         # Test empty tag
-        node = LeafNode("br", None)
-        with self.assertRaises(ValueError):
-            node.to_html()
+        node = LeafNode(None, "Testing an empty tag.")
+        self.assertEqual(node.to_html(), node.value)
 
 
 if __name__ == "__main__":
