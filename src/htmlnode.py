@@ -46,10 +46,24 @@ class LeafNode(HTMLNode):
         else:
             html_props = ""
 
-        if self.tag in ['area', 'base', 'br', 'col', 'embed', 'hr', img',\
-                        'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']:
-                        return f"<{self.tag}{html_props}/>"
-                        
+        if self.tag in [
+            "area",
+            "base",
+            "br",
+            "col",
+            "embed",
+            "hr",
+            "img",
+            "input",
+            "link",
+            "meta",
+            "param",
+            "source",
+            "track",
+            "wbr",
+        ]:
+            return f"<{self.tag}{html_props}/>"
+
         return f"<{self.tag}{html_props}>{self.value}</{self.tag}>"
 
     def __repr__(self):
@@ -63,7 +77,7 @@ class ParentNode(HTMLNode):
     def to_html(self):
         if self.tag is None:
             raise ValueError("Parent nodes must have a tag")
-        if self.children is None:
+        if not self.children:
             raise ValueError("Parent nodes must have children")
 
         if self.props is not None:

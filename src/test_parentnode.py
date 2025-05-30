@@ -72,7 +72,7 @@ class TestParentNode(unittest.TestCase):
         ]
         node = ParentNode("section", children)
         expected = (
-            '<section>raw text<div><p>nested</p></div><img src="image.jpg"></section>'
+            '<section>raw text<div><p>nested</p></div><img src="image.jpg"/></section>'
         )
         self.assertEqual(node.to_html(), expected)
 
@@ -80,7 +80,7 @@ class TestParentNode(unittest.TestCase):
         # Test with void elements as children
         children = [LeafNode("br", ""), LeafNode("img", "", {"src": "pic.png"})]
         node = ParentNode("div", children)
-        expected = '<div><br><img src="pic.png"></div>'
+        expected = '<div><br/><img src="pic.png"/></div>'
         self.assertEqual(node.to_html(), expected)
 
 
