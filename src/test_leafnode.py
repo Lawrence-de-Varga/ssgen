@@ -15,18 +15,6 @@ class TestLeafNode(unittest.TestCase):
         node = LeafNode("a", "Click me", props)
         self.assertEqual(node.props, props)
 
-    # def test_children_property(self):
-    #     node = LeafNode("span", "content")
-    #     with self.assertRaises(AttributeError) as ctx:
-    #         _ = node.children
-    #     self.assertEqual(str(ctx.exception), "LeafNode cannot have children")
-
-    #     with self.assertRaises(AttributeError) as ctx:
-    #         node.children = ["invalid"]
-    #     self.assertEqual(
-    #         str(ctx.exception), "LeafNode's cannot have children assigned to them."
-    #     )
-
     def test_to_html(self):
         # Test simple tag
         node = LeafNode("p", "This is a paragraph.")
@@ -45,7 +33,7 @@ class TestLeafNode(unittest.TestCase):
 
     def test_value_required(self):
         # Test empty value
-        with self.assertRaises(ValueError) as context:
+        with self.assertRaises(AttributeError) as context:
             LeafNode("p", None)
         self.assertEqual(str(context.exception), "Leaf nodes must have a value.")
 

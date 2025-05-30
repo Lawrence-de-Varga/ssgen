@@ -4,7 +4,7 @@ from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 def main():
-    test = TextNode("Well Well Well", TextType.HTML, "https://cheese.com")
+    test = TextNode("Well Well Well", TextType.BOLD, "https://cheese.com")
 
     print(test)
 

@@ -14,6 +14,11 @@ class HTMLNode:
         prop_list = [f' {key}="{value}"' for key, value in self.props.items()]
         return "".join(prop_list)
 
+    def __eq__(self, other):
+        if not isinstance(other, HTMLNode):
+            return False
+        return self.__dict__ == other.__dict__
+
     def __repr__(self):
         return (
             f"TextNode(tag={self.tag}, value={self.value}, children={self.children}, \
@@ -25,20 +30,11 @@ class LeafNode(HTMLNode):
     def __init__(self, tag=None, value=None, props=None):
         super().__init__(tag, value, children=None, props=props)
         if self.value is None:
-            raise ValueError("Leaf nodes must have a value.")
-
-    # @property
-    # def children(self):
-    #     raise AttributeError("Leaf nodes cannot have children.")
-
-    # @children.setter
-    # def children(self, value):
-    #     self.children = None
-    #     raise AttributeError("LeafNode's cannot have children assigned to them.")
+            raise AttributeError("Leaf nodes must have a value.")
 
     def to_html(self):
         if self.value is None:
-            raise ValueError("Leaf nodes must have a value.")
+            raise AttributeError("Leaf nodes must have a value.")
         if self.tag is None:
             return self.value
         if self.props:
