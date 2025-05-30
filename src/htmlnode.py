@@ -45,6 +45,11 @@ class LeafNode(HTMLNode):
             html_props = self.props_to_html()
         else:
             html_props = ""
+
+        if self.tag in ['area', 'base', 'br', 'col', 'embed', 'hr', img',\
+                        'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']:
+                        return f"<{self.tag}{html_props}/>"
+                        
         return f"<{self.tag}{html_props}>{self.value}</{self.tag}>"
 
     def __repr__(self):
