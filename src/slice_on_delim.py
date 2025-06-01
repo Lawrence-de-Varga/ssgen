@@ -68,5 +68,6 @@ def msplit(sub_string: str, string: str) -> list[str]:
         else:
             current_string += string[i]
             i += 1
+    split_string.append(current_string)
 
     return split_string
