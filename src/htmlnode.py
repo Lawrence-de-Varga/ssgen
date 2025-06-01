@@ -1,3 +1,6 @@
+from decorators import type_check_decorator
+
+
 class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
         self.tag = tag
@@ -26,6 +29,7 @@ class HTMLNode:
         )
 
 
+@type_check_decorator([HTMLNode)
 class LeafNode(HTMLNode):
     def __init__(self, tag=None, value=None, props=None):
         super().__init__(tag, value, children=None, props=props)
@@ -66,6 +70,7 @@ class LeafNode(HTMLNode):
         return f"LeafNode(tag={self.tag}, value={self.value}, props={self.props})"
 
 
+@type_check_decorator([HTMLNode)
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):
         super().__init__(tag, children=children, props=props)
