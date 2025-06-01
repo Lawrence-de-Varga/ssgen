@@ -45,9 +45,6 @@ def msplit(sub_string: str, string: str) -> list[str]:
 
     i = 0
     while not i >= len(string):
-        # print(f"I: {i}")
-        # print(f"CURR: {current_string}")
-        # print(f"SPLIT: {split_string}")
         if starts_with(sub_string, string[i:]):
             if not partner:
                 split_string.append(current_string)
@@ -60,11 +57,6 @@ def msplit(sub_string: str, string: str) -> list[str]:
                 partner = not partner
                 i += len(sub_string)
 
-            # if not current_string == "":
-            #     split_string.append(current_string)
-            # split_string.append(sub_string)
-            # current_string = ""
-            # i += len(sub_string)
         else:
             current_string += string[i]
             i += 1
