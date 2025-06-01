@@ -18,6 +18,7 @@ def slice_on_first_delimiter(delimiter: str, text: str):
         return text[:idx], idx, text[idx:]
 
 
+# returns True if string starts with sub_string
 @type_check_decorator([str, str])
 def starts_with(sub_string: str, string: str) -> bool:
     if len(string) < len(sub_string):
@@ -30,6 +31,7 @@ def starts_with(sub_string: str, string: str) -> bool:
     return True
 
 
+# Same as starts with but checks multiple substrings
 @type_check_decorator([list, str])
 def mstarts_with(sub_strings: list, string: str) -> str | bool:
     for ss in sub_strings:
@@ -38,6 +40,8 @@ def mstarts_with(sub_strings: list, string: str) -> str | bool:
     return False
 
 
+# Similar to .split() but retains the sub_string to split with
+# in the returned string
 @type_check_decorator([str, str])
 def msplit(sub_string: str, string: str) -> list[str]:
     if sub_string == "":
@@ -75,32 +79,27 @@ def msplit(sub_string: str, string: str) -> list[str]:
 
 @type_check_decorator([list, str])
 def mmsplit(sub_strings: list[str], string: str) -> list[str]:
-    if sub_strings == "":
-        return string
-
-    if sub_strings not in string:
+    if sub_strings == []:
         return string
 
     split_string: list[str] = []
     current_string: str = ""
     pairs = []
 
-    partner = False
-
     i = 0
     while not i >= len(string):
-        if starts_with(sub_strings, string[i:]):
-            if not partner:
+        ss = mstarts_with(sub_strings, string[i:])
+        if ss:
+            if pairs == [] or ss != pairs[-1]:
                 split_string.append(current_string)
-                current_string = sub_strings
-                partner = not partner
-                i += len(sub_strings)
+                current_string = ss
+                pairs.append(ss)
+                i += len(ss)
             else:
-                split_string.append(current_string + sub_strings)
+                split_string.append(current_string + ss)
                 current_string = ""
-                partner = not partner
-                i += len(sub_strings)
-
+                i += len(ss)
+                pairs = pairs[:-1]
         else:
             current_string += string[i]
             i += 1
