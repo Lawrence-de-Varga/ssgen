@@ -76,15 +76,6 @@ def split_nodes(old_nodes: list[TextNode], splitter: Callable) -> list[TextNode]
 
 
 def process_nodes(old_nodes: list[TextNode]) -> list[TextNode]:
-    pass
-
-
-a = TextNode(
-    "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)",
-    text_type=TextType.TEXT,
-)
-b = a.text
-c = "I **love** cheese. I --really really-- do."
-c += b
-d = sd.mmsplit(["**", "--"], c)
-e = sd.process_split_string(["**", "--"], d)
+    new_nodes = split_nodes(old_nodes, split_node_images)
+    new_nodes = split_nodes(new_nodes, split_node_links)
+    return new_nodes
