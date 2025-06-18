@@ -1,6 +1,6 @@
 from enum import Enum
 from htmlnode import LeafNode
-from decorators import type_check_decorator
+from decorators import type_check
 
 
 class TextType(Enum):
@@ -27,7 +27,7 @@ class TextNode:
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
 
 
-@type_check_decorator([TextNode])
+@type_check([TextNode])
 def text_node_to_html_node(text_node):
     if text_node.text_type not in TextType:
         raise ValueError(f"Invalid TextType: {text_node.text_type}")

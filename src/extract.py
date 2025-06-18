@@ -1,18 +1,17 @@
 import re
 
-from decorators import type_check_decorator
+from decorators import type_check
 from textnode import TextNode, TextType
 from collections.abc import Callable
-import slice_on_delim as sd
 
 
-@type_check_decorator([str])
+@type_check([str])
 def extract_markdown_images(text: str) -> list[tuple]:
     matches = re.findall(r"!\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
     return matches
 
 
-@type_check_decorator([str])
+@type_check([str])
 def extract_markdown_links(text: str) -> list[tuple]:
     matches = re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
     return matches

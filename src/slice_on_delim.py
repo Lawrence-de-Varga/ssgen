@@ -1,5 +1,5 @@
 from textnode import TextType, TextNode
-from decorators import type_check_decorator
+from decorators import type_check
 
 delimiter_to_text_type = {
     "`": TextType.CODE,
@@ -11,7 +11,7 @@ DELIMS = ["**", "_", "`"]
 
 
 # returns True if string starts with sub_string
-@type_check_decorator([str, str])
+@type_check([str, str])
 def starts_with(sub_string: str, string: str) -> bool:
     if len(string) < len(sub_string):
         return False
@@ -27,7 +27,7 @@ def starts_with(sub_string: str, string: str) -> bool:
 
 
 # Same as starts with but checks multiple substrings
-@type_check_decorator([list, str])
+@type_check([list, str])
 def mstarts_with(sub_strings: list, string: str) -> str | bool:
     for ss in sub_strings:
         if starts_with(ss, string):
@@ -35,7 +35,20 @@ def mstarts_with(sub_strings: list, string: str) -> str | bool:
     return False
 
 
-@type_check_decorator([list, str])
+@type_check([str, str])
+def ends_with(sub_string: str, string: str) -> bool:
+    if len(string) < len(sub_string):
+        return False
+
+    if not sub_string:
+        return False
+
+    string = string[::-1]
+
+    return starts_with(sub_string, string)
+
+
+@type_check([list, str])
 def mcontains(sub_strings: list[str], string: str) -> bool | str:
     for ss in sub_strings:
         if ss in string:
@@ -45,7 +58,7 @@ def mcontains(sub_strings: list[str], string: str) -> bool | str:
 
 # Same as msplit but takes multiple delimiters to split the string on.
 # Intended for use with paired delimiters
-@type_check_decorator([list, str])
+@type_check([list, str])
 def mmsplit(sub_strings: list[str], string: str) -> list[str]:
     if sub_strings == []:
         return string
@@ -76,7 +89,7 @@ def mmsplit(sub_strings: list[str], string: str) -> list[str]:
     return split_string
 
 
-@type_check_decorator([list, list])
+@type_check([list, list])
 def process_split_string(sub_strings: list[str], strings: list[str]) -> list[TextNode]:
     """Takes a list of delimiter strings and a list of strings (from mmsplit)
     and returns a list of TextNode(s) whose TextType is determined
@@ -168,14 +181,3 @@ def process_split_string(sub_strings: list[str], strings: list[str]) -> list[Tex
 #         return text[:idx], idx, text[idx:]
 #
 #
-# @type_check_decorator([str, str])
-# def ends_with(sub_string: str, string: str) -> bool:
-#     if len(string) < len(sub_string):
-#         return False
-
-#     if not sub_string:
-#         return False
-
-#     string = string[::-1]
-
-#     return starts_with(sub_string, string)

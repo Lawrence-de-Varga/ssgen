@@ -1,4 +1,4 @@
-def type_check_decorator(param_types: list):
+def type_check(param_types: list):
     def decorate(function_to_check):
         def wrapper(*args, **kwargs):
             idx = 0
