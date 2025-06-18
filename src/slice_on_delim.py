@@ -1,7 +1,11 @@
-from textnode import TextType
+from textnode import TextType, TextNode
 from decorators import type_check_decorator
 
-delimiter_to_text_type = {"`": TextType.CODE, "**": TextType.BOLD, "_": TextType.ITALIC}
+delimiter_to_text_type = {
+    "`": TextType.CODE,
+    "**": TextType.BOLD,
+    "--": TextType.ITALIC,
+}
 
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -24,6 +28,9 @@ def starts_with(sub_string: str, string: str) -> bool:
     if len(string) < len(sub_string):
         return False
 
+    if not sub_string:
+        return False
+
     for idx in range(len(sub_string)):
         if sub_string[idx] != string[idx]:
             return False
@@ -31,11 +38,32 @@ def starts_with(sub_string: str, string: str) -> bool:
     return True
 
 
+@type_check_decorator([str, str])
+def ends_with(sub_string: str, string: str) -> bool:
+    if len(string) < len(sub_string):
+        return False
+
+    if not sub_string:
+        return False
+
+    string = string[::-1]
+
+    return starts_with(sub_string, string)
+
+
 # Same as starts with but checks multiple substrings
 @type_check_decorator([list, str])
 def mstarts_with(sub_strings: list, string: str) -> str | bool:
     for ss in sub_strings:
         if starts_with(ss, string):
+            return ss
+    return False
+
+
+@type_check_decorator([list, str])
+def mends_with(sub_strings: list, string: str) -> str | bool:
+    for ss in sub_strings:
+        if ends_with(ss, string):
             return ss
     return False
 
@@ -77,6 +105,8 @@ def msplit(sub_string: str, string: str) -> list[str]:
     return split_string
 
 
+# Same as msplit but takes multiple delimiters to split the string on.
+# Intended for use with paired delimiters
 @type_check_decorator([list, str])
 def mmsplit(sub_strings: list[str], string: str) -> list[str]:
     if sub_strings == []:
@@ -106,3 +136,37 @@ def mmsplit(sub_strings: list[str], string: str) -> list[str]:
     split_string.append(current_string)
 
     return split_string
+
+
+@type_check_decorator([list, str])
+def mcontains(sub_strings: list[str], string: str) -> bool | str:
+    for ss in sub_strings:
+        if ss in string:
+            return ss
+    return False
+
+
+@type_check_decorator([list, list])
+def process_split_string(sub_strings: list[str], strings: list[str]) -> list[TextNode]:
+    """Takes a list of delimiter strings and a list of strings (from mmsplit)
+    and returns a list of TextNode(s) whose TextType is determined
+    by the delimiter (or absence thereof).
+    NOTE: Currently does not handle nested delimiters .e.g 'I **need to --go-- home** now'
+    """
+    if not sub_strings:
+        raise ValueError("'sub_strings' must not be None.")
+
+    if not strings:
+        raise ValueError("'string' must not be None")
+
+    nodes = []
+    for string in strings:
+        ss = mcontains(sub_strings, string)
+        if not ss:
+            nodes.append(TextNode(string, text_type=TextType.TEXT))
+        else:
+            string = string.replace(ss, "")
+            tt = delimiter_to_text_type[ss]
+            nodes.append(TextNode(string, tt))
+
+    return nodes

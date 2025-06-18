@@ -1,6 +1,3 @@
-from decorators import type_check_decorator
-
-
 class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
         self.tag = tag
