@@ -7,7 +7,7 @@ def type_check_decorator(param_types: list):
                     if not isinstance(args[idx], param_types[idx]):
                         print(idx)
                         raise TypeError(
-                            f"Arg {idx + 1} must be of type: {param_types[idx]}."
+                            f"Arg {idx + 1}: {args[idx]} must be of type: {param_types[idx]}, but is of type: {type(args[idx])}."
                         )
                     idx += 1
                 elif (idx - len(args)) in range(len(kwargs)):
