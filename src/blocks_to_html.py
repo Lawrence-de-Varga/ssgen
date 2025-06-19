@@ -54,14 +54,27 @@ def code_block_to_code_node(block: str) -> LeafNode:
 
     text = block.strip("```")
     text_node = TextNode(text, text_type=TextType.CODE)
-    leaf_node = text_node_to_html_node(text_node)
-    return leaf_node
+    child = text_node_to_html_node(text_node)
+    code = ParentNode("code", [child])
+    return ParentNode("pre", [code])
 
 
 @type_check([str])
 def paragraph_block_to_paragraph_node(block: str) -> ParentNode:
     children = md_text_to_html_nodes(block)
     return ParentNode("p", children)
+
+
+@type_check([str])
+def ul_block_to_ul_node(block: str) -> ParentNode:
+    list_items = block.split("\n")
+    list_items = [block.lstrip("- ") for block in list_items]
+    p_list = []
+    for li in list_items:
+        children = md_text_to_html_nodes(li)
+        par = ParentNode("li", children)
+        p_list.append(par)
+    return ParentNode("ul", p_list)
 
 
 def pp(thing):
