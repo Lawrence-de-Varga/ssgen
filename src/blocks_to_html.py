@@ -8,6 +8,11 @@ from process_text_nodes import process_md_paragraph
 
 @type_check([str])
 def md_text_to_html_nodes(md: str) -> list[HTMLNode]:
+    """
+    Takes md text with possible inline elements and
+    turns it into a list of TextNode and then a list
+    of htmlnodes which are then returned.
+    """
     tnodes = process_md_paragraph(md)
     html_nodes = [text_node_to_html_node(node) for node in tnodes]
     return html_nodes
@@ -75,6 +80,23 @@ def ul_block_to_ul_node(block: str) -> ParentNode:
         par = ParentNode("li", children)
         p_list.append(par)
     return ParentNode("ul", p_list)
+
+
+@type_check([str])
+def ol_block_to_ol_node(block: str) -> ParentNode:
+    list_items = block.split("\n")
+    idx = 1
+    new_list_items = []
+    for li in list_items:
+        new_list_items.append(li.lstrip(f"{idx}. "))
+        idx += 1
+
+    p_list = []
+    for li in new_list_items:
+        children = md_text_to_html_nodes(li)
+        par = ParentNode("li", children)
+        p_list.append(par)
+    return ParentNode("ol", p_list)
 
 
 def pp(thing):
