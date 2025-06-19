@@ -58,6 +58,12 @@ def code_block_to_code_node(block: str) -> LeafNode:
     return leaf_node
 
 
+@type_check([str])
+def paragraph_block_to_paragraph_node(block: str) -> ParentNode:
+    children = md_text_to_html_nodes(block)
+    return ParentNode("p", children)
+
+
 def pp(thing):
     idx = 0
     for item in thing:
