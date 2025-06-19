@@ -4,10 +4,11 @@ from decorators import type_check
 delimiter_to_text_type = {
     "`": TextType.CODE,
     "**": TextType.BOLD,
+    "*": TextType.ITALIC,
     "_": TextType.ITALIC,
 }
 
-DELIMS = ["**", "_", "`"]
+DELIMS = ["**", "_", "`", "*"]
 
 
 # returns True if string starts with sub_string
@@ -50,16 +51,22 @@ def ends_with(sub_string: str, string: str) -> bool:
 
 @type_check([list, str])
 def mcontains(sub_strings: list[str], string: str) -> bool | str:
+    """
+    Returns True if any element of 'sub_strings' is
+    in 'string'.
+    """
     for ss in sub_strings:
         if ss in string:
             return ss
     return False
 
 
-# Same as msplit but takes multiple delimiters to split the string on.
-# Intended for use with paired delimiters
 @type_check([list, str])
 def mmsplit(sub_strings: list[str], string: str) -> list[str]:
+    """
+    Same as msplit but takes multiple delimiters to split the string on.
+    Intended for use with paired delimiters
+    """
     if sub_strings == []:
         return string
 
@@ -105,7 +112,6 @@ def process_split_string(sub_strings: list[str], strings: list[str]) -> list[Tex
     nodes = []
     for string in strings:
         ss = mcontains(sub_strings, string)
-        print(ss)
         if not ss:
             nodes.append(TextNode(string, text_type=TextType.TEXT))
         else:

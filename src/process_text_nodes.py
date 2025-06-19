@@ -5,13 +5,18 @@ from textnode import TextNode
 
 """
 FLOW:
-MD-text -> sd.mmsplit -> sd.process_split_strings
+MD-text -> sd.mmsplit -> sd.process_split_string
         -> ex.process_nodes  
 """
 
 
 @type_check([str])
-def process_md(md_text: str) -> list[TextNode]:
+def process_md_paragraph(md_text: str) -> list[TextNode]:
+    """
+    Takes a md paragraph block containing inline link, image,
+    bold, italic and code tags and returns a list of
+    TextNode(s) corresponding to the paragraph.
+    """
     operand = sd.mmsplit(sd.DELIMS, md_text)
     operand = sd.process_split_string(sd.DELIMS, operand)
     operand = ex.process_nodes(operand)

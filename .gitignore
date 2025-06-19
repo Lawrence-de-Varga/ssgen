@@ -3,3 +3,4 @@ output.txt
 public/
 decorators.py
 sample.md
+*.md

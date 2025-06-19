@@ -26,6 +26,9 @@ def markdown_to_blocks(md_string: str) -> list[str]:
 
 @type_check([str])
 def md_heading_check(md: str) -> bool:
+    """
+    Returns True if provided string is a markdown heading.
+    """
     headings = [
         "# ",
         "## ",
@@ -80,6 +83,9 @@ def md_ol_check(md: str) -> bool:
 
 @type_check([str])
 def block_to_block_type(md_block: str) -> BlockType:
+    """
+    Returns the BlockType of a given block.
+    """
     if md_heading_check(md_block):
         return BlockType.HEADING
     if md_code_check(md_block):
@@ -92,119 +98,3 @@ def block_to_block_type(md_block: str) -> BlockType:
         return BlockType.ORDERED_LIST
 
     return BlockType.PARAGRAPH
-
-
-md = """
-This is **bolded** paragraph
-
-This is another paragraph with _italic_ text and `code` here
-This is the same paragraph on a new line
-
-- This is a list
-- with items
-"""
-
-
-bmd = """
-
-# 100-Line Markdown Document
-
-## Section 1: Introduction
-
-This document contains exactly 100 lines of Markdown content.
-
-> "First quote demonstrating blockquote syntax."
-
-## Section 2: Core Elements
-
-### Paragraph Example
-
-This is the first paragraph spanning a single line.
-
-This is the second paragraph on its own line.
-
-```python
-# Python code block
-def example():
-    return True
-```
-
-### Unordered List
-
-- First list item
-- Second list item
-  - Nested item A
-  - Nested item B
-- Third list item
-
-## Section 3: Ordered Content
-
-1. First numbered item
-2. Second numbered item
-   1. Nested number A
-   2. Nested number B
-3. Third numbered item
-
-> "Second quote showing multi-line  
-> blockquote formatting."
-
-```javascript
-// JavaScript example
-console.log("Hello World");
-```
-
-## Section 4: Repeating Patterns
-
-- Repeat list item 1
-- Repeat list item 2
-- Repeat list item 3
-
-1. Repeat number 1
-2. Repeat number 2
-3. Repeat number 3
-
-```bash
-# Shell command
-ls -la
-```
-
-This paragraph continues the content flow.
-
-> "Third quote demonstrating consistency."
-
-## Section 5: More Examples
-
-### Code Variants
-
-```html
-<p>Sample HTML</p>
-```
-
-```yaml
-config:
-  enabled: true
-```
-
-### Final Lists
-
-- Final item A
-- Final item B
-- Final item C
-
-1. Last number 1
-2. Last number 2
-3. Last number 3
-
-## Section 6: Conclusion
-
-This concludes the 100-line document.
-
-> "Final quote ending the example."
-
-```text
-Plain text block to
-reach line count
-```
-
-# END
-"""
