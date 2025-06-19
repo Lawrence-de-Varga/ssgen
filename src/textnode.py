@@ -28,7 +28,7 @@ class TextNode:
 
 
 @type_check([TextNode])
-def text_node_to_html_node(text_node):
+def text_node_to_html_node(text_node: TextNode) -> LeafNode:
     if text_node.text_type not in TextType:
         raise ValueError(f"Invalid TextType: {text_node.text_type}")
 

@@ -20,10 +20,7 @@ class HTMLNode:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        return (
-            f"TextNode(tag={self.tag}, value={self.value}, children={self.children}, \
-                    props={self.props}"
-        )
+        return f"TextNode(tag={self.tag}, value={self.value}, children={self.children}, props={self.props}"
 
 
 class LeafNode(HTMLNode):
@@ -83,3 +80,6 @@ class ParentNode(HTMLNode):
 
         children_html = "".join([child.to_html() for child in self.children])
         return f"<{self.tag}{html_props}>{children_html}</{self.tag}>"
+
+    def __repr__(self):
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
