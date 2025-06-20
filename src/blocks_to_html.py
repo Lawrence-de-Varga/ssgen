@@ -146,19 +146,19 @@ def pp(thing):
         print()
 
 
-with open("../markdown_sample.md") as f:
+with open("../sample_md/markdown_sample_1.md") as f:
     mds1 = f.read()
-with open("../markdown_sample_2.md") as f:
+with open("../sample_md/markdown_sample_2.md") as f:
     mds2 = f.read()
-with open("../markdown_sample_3.md") as f:
+with open("../sample_md/markdown_sample_3.md") as f:
     mds3 = f.read()
-with open("../markdown_sample_4.md") as f:
+with open("../sample_md/markdown_sample_4.md") as f:
     mds4 = f.read()
-with open("../markdown_sample_5.md") as f:
+with open("../sample_md/markdown_sample_5.md") as f:
     mds5 = f.read()
-with open("../markdown_sample_6.md") as f:
+with open("../sample_md/markdown_sample_6.md") as f:
     mds6 = f.read()
-with open("../markdown_sample_7.md") as f:
+with open("../sample_md/markdown_sample_7.md") as f:
     mds7 = f.read()
 
 blocks = markdown_to_blocks(mds7)
