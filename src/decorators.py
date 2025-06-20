@@ -1,4 +1,8 @@
 def type_check(param_types: list):
+    """
+    NOTE: Does not wokr with kwargs atm.
+    """
+
     def decorate(function_to_check):
         def wrapper(*args, **kwargs):
             idx = 0
@@ -7,7 +11,7 @@ def type_check(param_types: list):
                     if not isinstance(args[idx], param_types[idx]):
                         print(idx)
                         raise TypeError(
-                            f"Arg {idx + 1}: {args[idx]} must be of type: {param_types[idx]}, but is of type: {type(args[idx])}."
+                            f"Arg {idx + 1}: '{args[idx]}' to '{function_to_check.__name__}' must be of type: {param_types[idx]}, but is of type: {type(args[idx])}."
                         )
                     idx += 1
                 elif (idx - len(args)) in range(len(kwargs)):
