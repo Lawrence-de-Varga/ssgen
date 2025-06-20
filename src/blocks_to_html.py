@@ -7,7 +7,40 @@ from process_text_nodes import process_md_paragraph
 
 
 @type_check([str])
-def md_text_to_html_nodes(md: str) -> list[HTMLNode]:
+def md_doc_to_html_nodes(doc: str) -> ParentNode:
+    """
+    Takes a markdown document and returns the
+    a ParentNode whose children represent
+    the whole document as HTML, Leaf and Parent
+    nodes.
+    """
+    blocks = markdown_to_blocks(doc)
+
+    children = []
+    for block in blocks:
+        if block_to_block_type(block) == BlockType.PARAGRAPH:
+            children.append(paragraph_block_to_paragraph_node(block))
+            continue
+        if block_to_block_type(block) == BlockType.CODE:
+            children.append(code_block_to_code_node(block))
+            continue
+        if block_to_block_type(block) == BlockType.HEADING:
+            children.append(heading_block_to_heading_node(block))
+            continue
+        if block_to_block_type(block) == BlockType.QUOTE:
+            children.append(quote_block_to_quote_node(block))
+            continue
+        if block_to_block_type(block) == BlockType.UNORDERED_LIST:
+            children.append(ul_block_to_ul_node(block))
+            continue
+        if block_to_block_type(block) == BlockType.ORDERED_LIST:
+            children.append(ol_block_to_ol_node(block))
+
+    return ParentNode("div", children)
+
+
+@type_check([str])
+def md_paragraph_to_html_nodes(md: str) -> list[HTMLNode]:
     """
     Takes md text with possible inline elements and
     turns it into a list of TextNode and then a list
@@ -38,7 +71,7 @@ def heading_block_to_heading_node(block: str) -> ParentNode:
         raise ValueError(f"Error: '{block}' is not a valid md heading.")
 
     text = block.lstrip(md_head)
-    children = md_text_to_html_nodes(text)
+    children = md_paragraph_to_html_nodes(text)
     return ParentNode(heading, children)
 
 
@@ -48,7 +81,7 @@ def quote_block_to_quote_node(block: str) -> ParentNode:
         raise ValueError(f"Error: '{block}' is not a valid md quote.")
 
     text = block.lstrip("> ")
-    children = md_text_to_html_nodes(text)
+    children = md_paragraph_to_html_nodes(text)
     return ParentNode("blockquote", children)
 
 
@@ -66,7 +99,7 @@ def code_block_to_code_node(block: str) -> LeafNode:
 
 @type_check([str])
 def paragraph_block_to_paragraph_node(block: str) -> ParentNode:
-    children = md_text_to_html_nodes(block)
+    children = md_paragraph_to_html_nodes(block)
     return ParentNode("p", children)
 
 
@@ -76,7 +109,7 @@ def ul_block_to_ul_node(block: str) -> ParentNode:
     list_items = [block.lstrip("- ") for block in list_items]
     p_list = []
     for li in list_items:
-        children = md_text_to_html_nodes(li)
+        children = md_paragraph_to_html_nodes(li)
         par = ParentNode("li", children)
         p_list.append(par)
     return ParentNode("ul", p_list)
@@ -93,7 +126,7 @@ def ol_block_to_ol_node(block: str) -> ParentNode:
 
     p_list = []
     for li in new_list_items:
-        children = md_text_to_html_nodes(li)
+        children = md_paragraph_to_html_nodes(li)
         par = ParentNode("li", children)
         p_list.append(par)
     return ParentNode("ol", p_list)

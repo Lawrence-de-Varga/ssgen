@@ -102,6 +102,8 @@ def process_split_string(sub_strings: list[str], strings: list[str]) -> list[Tex
     and returns a list of TextNode(s) whose TextType is determined
     by the delimiter (or absence thereof).
     NOTE: Currently does not handle nested delimiters .e.g 'I **need to --go-- home** now'
+    NOTE: Embedded html code will currently not display correctly, it will be treated as part of
+          the final html documents structure rather than code to be displayed literally.
     """
     if not sub_strings:
         raise ValueError("'sub_strings' must not be None.")
