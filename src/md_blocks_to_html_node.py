@@ -1,6 +1,6 @@
 from decorators import type_check
 from textnode import TextNode, text_node_to_html_node, TextType
-from markdown_to_blocks import block_to_block_type, markdown_to_blocks, BlockType
+from md_doc_to_md_blocks import block_to_block_type, md_doc_to_md_blocks, BlockType
 from slice_on_delim import starts_with, ends_with
 from htmlnode import ParentNode, HTMLNode, LeafNode
 from process_text_nodes import process_md_paragraph
@@ -163,4 +163,4 @@ with open("../sample_md/site.md") as f:
     site = f.read()
 
 
-blocks = markdown_to_blocks(mds7)
+blocks = md_doc_to_md_blocks(mds7)

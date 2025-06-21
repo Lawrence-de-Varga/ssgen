@@ -13,7 +13,7 @@ class BlockType(Enum):
 
 
 @type_check([str])
-def markdown_to_blocks(md_string: str) -> list[str]:
+def md_doc_to_md_blocks(md_string: str) -> list[str]:
     """
     Assumes a well formed markdown string.
     Returns a list of strings coresponding to
