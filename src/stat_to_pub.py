@@ -1,12 +1,11 @@
 from decorators import type_check
 from pathlib import Path
 
-PUBLIC = "/home/ldv/workspace/github.com/lawrence-de-varga/ssgen/public/"
-STATIC = "/home/ldv/workspace/github.com/lawrence-de-varga/ssgen/static/"
+PUBLIC = "public/"
+STATIC = "static/"
 
-
-public = Path(PUBLIC)
-static = Path(STATIC)
+public = Path(PUBLIC).resolve()
+static = Path(STATIC).resolve()
 
 if not public.exists():
     raise ValueError(f"Error: '{public}' path does not exist.")
@@ -94,4 +93,4 @@ def delete_all_contents(directory: Path):
         )
 
 
-p = Path("/home/ldv/workspace/github.com/lawrence-de-varga/ssgen/src/testing/")
+# p = Path("/home/ldv/workspace/github.com/lawrence-de-varga/ssgen/src/testing/")
