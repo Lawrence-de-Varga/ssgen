@@ -7,14 +7,13 @@ from process_text_nodes import process_md_paragraph
 
 
 @type_check(list[str])
-def md_doc_to_html_nodes(blocks: list[str]) -> ParentNode:
+def md_blocks_to_html_node(blocks: list[str]) -> ParentNode:
     """
     Takes a markdown document and returns the
     a ParentNode whose children represent
     the whole document as HTML, Leaf and Parent
     nodes.
     """
-    # blocks = markdown_to_blocks(doc)
 
     children = []
     for block in blocks:
