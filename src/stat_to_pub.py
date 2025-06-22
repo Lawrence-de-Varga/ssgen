@@ -1,8 +1,8 @@
 from decorators import type_check
 from pathlib import Path
 
-PUBLIC = "public/"
-STATIC = "static/"
+PUBLIC = "../public/"
+STATIC = "../static/"
 
 public = Path(PUBLIC).resolve()
 static = Path(STATIC).resolve()

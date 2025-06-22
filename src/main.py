@@ -1,12 +1,38 @@
-from textnode import TextNode
-from textnode import TextType
-from htmlnode import HTMLNode, LeafNode, ParentNode
+# import sys
+from pathlib import Path
+from shutil import copytree
+from stat_to_pub import delete_all_contents
+from generate_page import generate_page
+
+# src_path = Path(__file__).parent / "src"
+# sys.path.insert(0, str(src_path))
+
+
+PUBLIC = "../public/"
+STATIC = "../static/"
+
+public = Path(PUBLIC).resolve()
+static = Path(STATIC).resolve()
 
 
 def main():
-    test = TextNode("Well Well Well", TextType.BOLD, "https://cheese.com")
+    if not public.exists():
+        raise ValueError(f"Error: '{public}' path does not exist.")
 
-    print(test)
+    if not static.exists():
+        raise ValueError(f"Error: '{static}' path does not exist.")
+
+    delete_all_contents(public)
+
+    copytree(static, public, dirs_exist_ok=True)
+
+    source = Path("../content/index.md").resolve()
+    template = Path("../template.html").resolve()
+    dest = Path("../public/index.html").resolve()
+    print(dest)
+
+    generate_page(source, template, dest)
 
 
-main()
+if __name__ == "__main__":
+    main()

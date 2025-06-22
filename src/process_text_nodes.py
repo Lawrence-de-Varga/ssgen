@@ -1,4 +1,4 @@
-import extract as ex
+import extract_md_link_or_image_tag as ex
 import slice_on_delim as sd
 from decorators import type_check
 from textnode import TextNode

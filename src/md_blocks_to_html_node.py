@@ -6,7 +6,7 @@ from htmlnode import ParentNode, HTMLNode, LeafNode
 from process_text_nodes import process_md_paragraph
 
 
-@type_check(list[str])
+@type_check([list])
 def md_blocks_to_html_node(blocks: list[str]) -> ParentNode:
     """
     Takes a markdown document and returns the

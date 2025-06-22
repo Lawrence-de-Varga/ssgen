@@ -1,12 +1,12 @@
 from pathlib import Path
 from md_blocks_to_html_node import md_blocks_to_html_node
 from decorators import type_check
-from blocks_to_html import block_to_block_type, BlockType
+from md_doc_to_md_blocks import block_to_block_type, BlockType
 from slice_on_delim import starts_with
 from md_doc_to_md_blocks import md_doc_to_md_blocks
 
 
-@type_check([list[str]])
+@type_check([list])
 def extract_title(blocks: list[str]):
     """
     Takes a list of markdown blocks as
@@ -63,15 +63,23 @@ def generate_page(from_path, template_path, dest_path):
 
     title = extract_title(blocks)
 
-    template.replace("{{ Title }}", title)
-    template.replace("{{ Content }}", html)
+    print("old template")
+    print(template)
+    print()
+    template = template.replace("{{ Title }}", title)
+    template = template.replace("{{ Content }}", html)
+    print()
+    print("new tempalte")
+    print(template)
 
     if dest_path.exists():
+        print("writing to existing index.html")
         if not dest_path.is_file():
             raise ValueError(f"Error: if {dest_path} exists it must be a file.")
         with open(dest_path, "w") as dp:
             dp.write(template)
     elif dest_path.parent.exists():
+        print("writing new index.html")
         with open(dest_path, "w") as dp:
             dp.write(template)
     else:
