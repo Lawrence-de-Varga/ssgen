@@ -32,7 +32,7 @@ def extract_title(blocks: list[str]):
 
 
 @type_check([Path, Path, Path])
-def generate_page(from_path, template_path, dest_path) -> None:
+def generate_page(from_path, template_path, dest_path, basepath) -> None:
     """
     Takes a Path to an index.md file and produces an index.html file from it.
     index.html is put into dest_path.
@@ -74,6 +74,8 @@ def generate_page(from_path, template_path, dest_path) -> None:
 
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
+    template = template.replace('href="/', 'href="' + basepath)
+    template = template.replace('src="/', 'src="' + basepath)
 
     if dest_path.exists():
         print("writing to existing index.html")
@@ -92,7 +94,9 @@ def generate_page(from_path, template_path, dest_path) -> None:
 
 
 @type_check([Path, Path, Path])
-def generate_pages(root_dir_path, from_dir_path, template_path, dest_dir_path) -> None:
+def generate_pages(
+    root_dir_path, from_dir_path, template_path, dest_dir_path, basepath
+) -> None:
     """
     Takes a directory and generates index.html pages from any index.md files it finds.
     THe directory tree will be copied into the source_dir
@@ -129,9 +133,9 @@ def generate_pages(root_dir_path, from_dir_path, template_path, dest_dir_path) -
                 # Full path for new 'index.html' file in dest_dir
                 dest_path = Path(dest_dir_path / dest_path)
 
-                generate_page(item.absolute(), template_path, dest_path)
+                generate_page(item.absolute(), template_path, dest_path, basepath)
             else:
                 continue
 
         else:
-            generate_pages(root_dir_path, item, template_path, dest_dir_path)
+            generate_pages(root_dir_path, item, template_path, dest_dir_path, basepath)
