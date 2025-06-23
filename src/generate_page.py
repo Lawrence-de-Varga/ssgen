@@ -33,6 +33,10 @@ def extract_title(blocks: list[str]):
 
 @type_check([Path, Path, Path])
 def generate_page(from_path, template_path, dest_path) -> None:
+    """
+    Takes a Path to an index.md file and produces an index.html file from it.
+    index.html is put into dest_path.
+    """
     print(f"Generating page from {from_path} to {dest_path} using {template_path}.")
 
     if not from_path.exists():
@@ -89,6 +93,11 @@ def generate_page(from_path, template_path, dest_path) -> None:
 
 @type_check([Path, Path, Path])
 def generate_pages(root_dir_path, from_dir_path, template_path, dest_dir_path) -> None:
+    """
+    Takes a directory and generates index.html pages from any index.md files it finds.
+    THe directory tree will be copied into the source_dir
+    """
+
     if not from_dir_path.exists():
         raise FileNotFoundError(f"Error: '{from_dir_path}' does not exist.")
     if not from_dir_path.is_dir():

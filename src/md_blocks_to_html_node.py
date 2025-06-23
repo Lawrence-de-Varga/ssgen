@@ -129,38 +129,3 @@ def ol_block_to_ol_node(block: str) -> ParentNode:
         par = ParentNode("li", children)
         p_list.append(par)
     return ParentNode("ol", p_list)
-
-
-def pp(thing):
-    idx = 0
-    for item in thing:
-        print(item)
-        print()
-        print(block_to_block_type(item))
-        print(idx)
-        idx += 1
-        print(
-            "-------------------------------------------------------------------------------------------------------------------"
-        )
-        print()
-
-
-with open("../sample_md/markdown_sample_1.md") as f:
-    mds1 = f.read()
-with open("../sample_md/markdown_sample_2.md") as f:
-    mds2 = f.read()
-with open("../sample_md/markdown_sample_3.md") as f:
-    mds3 = f.read()
-with open("../sample_md/markdown_sample_4.md") as f:
-    mds4 = f.read()
-with open("../sample_md/markdown_sample_5.md") as f:
-    mds5 = f.read()
-with open("../sample_md/markdown_sample_6.md") as f:
-    mds6 = f.read()
-with open("../sample_md/markdown_sample_7.md") as f:
-    mds7 = f.read()
-with open("../sample_md/site.md") as f:
-    site = f.read()
-
-
-blocks = md_doc_to_md_blocks(mds7)

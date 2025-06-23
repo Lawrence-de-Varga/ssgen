@@ -1,18 +1,6 @@
 from decorators import type_check
 from pathlib import Path
 
-PUBLIC = "../public/"
-STATIC = "../static/"
-
-public = Path(PUBLIC).resolve()
-static = Path(STATIC).resolve()
-
-if not public.exists():
-    raise ValueError(f"Error: '{public}' path does not exist.")
-
-if not static.exists():
-    raise ValueError(f"Error: '{static}' path does not exist.")
-
 
 @type_check([Path])
 def delete_all_files(directory: Path):
@@ -91,6 +79,3 @@ def delete_all_contents(directory: Path):
         raise Exception(
             f"Error: operation 'delete_all_directories' has failed with errror: {e}."
         )
-
-
-# p = Path("/home/ldv/workspace/github.com/lawrence-de-varga/ssgen/src/testing/")

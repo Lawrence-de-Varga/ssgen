@@ -1,21 +1,16 @@
-# import sys
 from pathlib import Path
 from shutil import copytree
 from stat_to_pub import delete_all_contents
 from generate_page import generate_pages
 
-# src_path = Path(__file__).parent / "src"
-# sys.path.insert(0, str(src_path))
-
-
-PUBLIC = "../public/"
-STATIC = "../static/"
-
-public = Path(PUBLIC).resolve()
-static = Path(STATIC).resolve()
-
 
 def main():
+    PUBLIC = "./public/"
+    STATIC = "./static/"
+
+    public = Path(PUBLIC).resolve()
+    static = Path(STATIC).resolve()
+
     if not public.exists():
         raise ValueError(f"Error: '{public}' path does not exist.")
 
@@ -26,10 +21,10 @@ def main():
 
     copytree(static, public, dirs_exist_ok=True)
 
-    root = Path("../content/").resolve()
-    source = Path("../content/").resolve()
-    template = Path("../template.html").resolve()
-    dest = Path("../public/").resolve()
+    root = Path("./content/").resolve()
+    source = Path("./content/").resolve()
+    template = Path("./template.html").resolve()
+    dest = Path("./public/").resolve()
 
     generate_pages(
         root,
