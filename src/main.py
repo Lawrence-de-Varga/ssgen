@@ -2,7 +2,7 @@
 from pathlib import Path
 from shutil import copytree
 from stat_to_pub import delete_all_contents
-from generate_page import generate_page
+from generate_page import generate_pages
 
 # src_path = Path(__file__).parent / "src"
 # sys.path.insert(0, str(src_path))
@@ -26,12 +26,17 @@ def main():
 
     copytree(static, public, dirs_exist_ok=True)
 
-    source = Path("../content/index.md").resolve()
+    root = Path("../content/").resolve()
+    source = Path("../content/").resolve()
     template = Path("../template.html").resolve()
-    dest = Path("../public/index.html").resolve()
-    print(dest)
+    dest = Path("../public/").resolve()
 
-    generate_page(source, template, dest)
+    generate_pages(
+        root,
+        source,
+        template,
+        dest,
+    )
 
 
 if __name__ == "__main__":

@@ -32,11 +32,16 @@ def extract_title(blocks: list[str]):
 
 
 @type_check([Path, Path, Path])
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path) -> None:
     print(f"Generating page from {from_path} to {dest_path} using {template_path}.")
-    if not from_path.exists() or not from_path.is_file():
-        raise ValueError(f"Error: {from_path} must exist and be a file.")
 
+    if not from_path.exists():
+        raise FileNotFoundError(f"Error: '{from_path}' does not exist.")
+    if not from_path.is_file():
+        raise ValueError(f"Error: {from_path} must be a file.")
+
+    if not template_path.exists():
+        raise FileNotFoundError(f"Error: '{template_path}' does not exist.")
     if not template_path.exists() or not template_path.is_file():
         raise ValueError(f"Error: {template_path} must exist and be a file.")
 
@@ -63,14 +68,8 @@ def generate_page(from_path, template_path, dest_path):
 
     title = extract_title(blocks)
 
-    print("old template")
-    print(template)
-    print()
     template = template.replace("{{ Title }}", title)
     template = template.replace("{{ Content }}", html)
-    print()
-    print("new tempalte")
-    print(template)
 
     if dest_path.exists():
         print("writing to existing index.html")
@@ -83,4 +82,47 @@ def generate_page(from_path, template_path, dest_path):
         with open(dest_path, "w") as dp:
             dp.write(template)
     else:
-        raise ValueError(f"Error: {dest_path.parent} does not exist.")
+        dest_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(dest_path, "w") as dp:
+            dp.write(template)
+
+
+@type_check([Path, Path, Path])
+def generate_pages(root_dir_path, from_dir_path, template_path, dest_dir_path) -> None:
+    if not from_dir_path.exists():
+        raise FileNotFoundError(f"Error: '{from_dir_path}' does not exist.")
+    if not from_dir_path.is_dir():
+        raise ValueError(f"Error: '{from_dir_path}' must be a directory.")
+
+    if not root_dir_path.exists():
+        raise FileNotFoundError(f"Error: '{root_dir_path}' does not exist.")
+    if not root_dir_path.is_dir():
+        raise ValueError(f"Error: '{root_dir_path}' must be a directory.")
+
+    if not dest_dir_path.exists():
+        raise FileNotFoundError(f"Error: '{dest_dir_path}' does not exist.")
+    if not dest_dir_path.is_dir():
+        raise ValueError(f"Error: '{dest_dir_path}' must be a directory.")
+
+    if not template_path.exists():
+        raise FileNotFoundError(f"Error: '{template_path}' does not exist.")
+    if not template_path.is_file():
+        raise ValueError(f"Error: '{template_path}' must be a file.")
+
+    for item in from_dir_path.iterdir():
+        if item.is_file():
+            if item.name == "index.md":
+                dest_path = Path(
+                    # creates the sub path relative to the root path that will be
+                    # copied into dest_dir
+                    item.absolute().relative_to(root_dir_path).parent / "index.html"
+                )
+                # Full path for new 'index.html' file in dest_dir
+                dest_path = Path(dest_dir_path / dest_path)
+
+                generate_page(item.absolute(), template_path, dest_path)
+            else:
+                continue
+
+        else:
+            generate_pages(root_dir_path, item, template_path, dest_dir_path)
